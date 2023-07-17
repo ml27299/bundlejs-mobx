@@ -1,0 +1,50 @@
+name: Deploying @liaison-inc/bundlejs-mobx npm package
+on:
+  push:
+    branches:
+      - master
+concurrency: master
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - uses: actions/checkout@v2
+
+      - id: dotenv
+        uses: falti/dotenv-action@v0.2.6
+        with:
+          path: .env
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to CodeArtifact
+        env:
+          ARTIFACT_DOMAIN: ${{ steps.dotenv.outputs.artifact_domain }}
+          ARTIFACT_DOMAIN_OWNER: ${{ steps.dotenv.outputs.artifact_domain_owner }}
+          ARTIFACT_REPOSITORY: ${{ steps.dotenv.outputs.artifact_repository }}
+          ARTIFACT_REGION: ${{ steps.dotenv.outputs.artifact_region }}
+        run: |
+          aws codeartifact login --region ${ARTIFACT_REGION} --tool npm --repository ${ARTIFACT_REPOSITORY} --domain ${ARTIFACT_DOMAIN} --domain-owner ${ARTIFACT_DOMAIN_OWNER}
+
+      - name: Publish to CodeArtifact Default Region
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          npm publish
