@@ -1,6 +1,7 @@
 {
 	"name": "@bundlejs/mobx",
 	"version": "0.0.1",
+	"repository": "git@github.com:ml27299/bundlejs-mobx.git",
 	"engines": {
 		"node": ">=10.15.0",
 		"npm": ">=6.9.0"
