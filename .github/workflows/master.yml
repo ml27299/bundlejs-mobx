@@ -24,9 +24,6 @@ jobs:
 
       - name: Publish to npm
         run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-          npm login
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
