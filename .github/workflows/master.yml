@@ -27,3 +27,5 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
           npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
