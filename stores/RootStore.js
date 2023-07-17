@@ -1,7 +1,7 @@
 import { create } from "mobx-persist";
-import { isBrowser } from "bundlejs/dist/utils";
 import { useStaticRendering } from "mobx-react";
 
+export const isBrowser = typeof window !== "undefined";
 if (!isBrowser) useStaticRendering(true);
 
 function camelize(str) {

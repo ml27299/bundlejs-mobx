@@ -1,5 +1,5 @@
 import { observable } from "mobx";
-import { required } from "bundlejs/dist/libs";
+import { required } from "../libs/required";
 
 class InstanceFactoryStoreManager {
 	@observable instances = [];
