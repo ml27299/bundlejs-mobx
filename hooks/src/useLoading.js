@@ -5,9 +5,7 @@ import LoadingStore from "../stores/LoadingStore";
 const useLoading =
 	(RootStoreContext) =>
 	(options = {}) => {
-		console.log("LALALALALALALAL");
 		const [state, setState] = useState({});
-		console.log("YOYOYO");
 		const rootStore = useContext(RootStoreContext);
 		const loadingStore = new LoadingStore(rootStore);
 		const [loadingId, onLoading, LoadingTemplate] = loadingStore.init(options);
@@ -41,8 +39,5 @@ const useLoading =
 
 export default ({ Template, RootStoreContext } = {}) => {
 	LoadingStore.Template = Template;
-	console.log("WTF");
-	const r = useLoading(RootStoreContext);
-	console.log("WTF2");
-	return r;
+	return useLoading(RootStoreContext);
 };
