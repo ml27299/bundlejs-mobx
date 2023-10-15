@@ -38,6 +38,6 @@ const useLoading =
 	};
 
 export default ({ Template, RootStoreContext } = {}) => {
-	LoadingStore.Template = Template;
+	LoadingStore.StaticTemplate = Template;
 	return useLoading(RootStoreContext);
 };
